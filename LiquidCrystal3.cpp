@@ -123,7 +123,7 @@ void LiquidCrystal::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t en
     
   }
   
-  //begin(16, 1);  
+  begin(16, 1);  
 }
 
 void LiquidCrystal::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
@@ -299,15 +299,11 @@ void LiquidCrystal::createChar(uint8_t location, uint8_t charmap[]) {
 /*********** mid level commands, for sending data/cmds */
 
 inline void LiquidCrystal::command(uint8_t value) {
-
   send(value, LOW);
-
 }
 
 inline size_t LiquidCrystal::write(uint8_t value) {
-
   send(value, HIGH);
-
   return 1; // assume sucess
 }
 
