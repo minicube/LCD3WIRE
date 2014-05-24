@@ -313,8 +313,6 @@ inline size_t LiquidCrystal::write(uint8_t value) {
 void LiquidCrystal::send(uint8_t value, uint8_t mode) {
 	
   int data = 0;
-
-  digitalWrite(_enable_pin,LOW); // set the strobe LOW
   
   if (!mode){
 
@@ -347,8 +345,7 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
 	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
 	  digitalWrite(_enable_pin, HIGH);
 	  digitalWrite(_enable_pin, LOW);
-  } 
-  else if (mode) {
+  } else if (mode) {
   	  data = value & 240; //send the first 4 databits (from 8)
   
       data |= SHIFT_RS; // set DI HIGH
@@ -387,8 +384,6 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
 void LiquidCrystal::write4bits(uint8_t value) {
 	
   int data = 0;
-
-  digitalWrite(_enable_pin,LOW); // set the strobe LOW
 
   data = value << 4; //send the first 4 databits (from 8)
 
