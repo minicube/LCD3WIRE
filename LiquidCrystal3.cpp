@@ -8,7 +8,6 @@
 
 // bitmasks for control bits on shift register
 #define SHIFT_RS B00000010
-#define SHIFT_RW B00000100
 #define SHIFT_EN B00001000
 
 
@@ -300,15 +299,15 @@ void LiquidCrystal::createChar(uint8_t location, uint8_t charmap[]) {
 /*********** mid level commands, for sending data/cmds */
 
 inline void LiquidCrystal::command(uint8_t value) {
+
   send(value, LOW);
 
-delay(5);
 }
 
 inline size_t LiquidCrystal::write(uint8_t value) {
 
   send(value, HIGH);
-  
+
   return 1; // assume sucess
 }
 
@@ -357,7 +356,6 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
   	  data = value & 240; //send the first 4 databits (from 8)
   
       data |= SHIFT_RS; // set DI HIGH
-      data &= ~SHIFT_RW; // set RW LOW
 	  data &= ~SHIFT_EN; // set Enable LOW
 	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
 	  digitalWrite(_enable_pin, HIGH);
@@ -374,8 +372,6 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
 	  data = value << 4; // set HByte to zero 
   
       data |= SHIFT_RS; // set DI HIGH
-      data &= ~SHIFT_RW; // set RW LOW
-
 	  data &= ~SHIFT_EN; // set Enable LOW
 	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
 	  digitalWrite(_enable_pin, HIGH);
@@ -390,15 +386,6 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
 	  digitalWrite(_enable_pin, LOW);
   }
 
-}
-
-void LiquidCrystal::pulseEnable(void) {
-  digitalWrite(_enable_pin, LOW);
-  delayMicroseconds(1);    
-  digitalWrite(_enable_pin, HIGH);
-  delayMicroseconds(1);    // enable pulse must be >450ns
-  digitalWrite(_enable_pin, LOW);
-  delayMicroseconds(100);   // commands need > 37us to settle
 }
 
 void LiquidCrystal::write4bits(uint8_t value) {
@@ -425,6 +412,15 @@ void LiquidCrystal::write4bits(uint8_t value) {
   delayMicroseconds(10);
   digitalWrite(_enable_pin, LOW);
 
+}
+
+void LiquidCrystal::pulseEnable(void) {
+  digitalWrite(_enable_pin, LOW);
+  delayMicroseconds(1);    
+  digitalWrite(_enable_pin, HIGH);
+  delayMicroseconds(1);    // enable pulse must be >450ns
+  digitalWrite(_enable_pin, LOW);
+  delayMicroseconds(100);   // commands need > 37us to settle
 }
 
 void LiquidCrystal::write8bits(uint8_t value) {
