@@ -36,7 +36,7 @@
  */
 
 // include the library code:
-#include <LiquidCrystal.h>
+#include <LiquidCrystal3.h>
 
 // initialize the library with the numbers of the interface pins
 //LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
@@ -116,7 +116,8 @@ void setup() {
   lcd.begin(16, 2);
   // Print a message to the lcd.
   lcd.print("I "); 
-  lcd.write(0);
+  int n = 0;
+  lcd.write(n);
   lcd.print(" Arduino! ");
   lcd.write(1);
 
