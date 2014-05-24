@@ -395,17 +395,14 @@ void LiquidCrystal::write4bits(uint8_t value) {
   data &= ~SHIFT_EN; // set Enable LOW
   shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
   digitalWrite(_enable_pin, HIGH);
-  delayMicroseconds(10);
   digitalWrite(_enable_pin, LOW);
   data |= SHIFT_EN; // Set Enable HIGH
   shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
   digitalWrite(_enable_pin, HIGH);
-  delayMicroseconds(10);
   digitalWrite(_enable_pin, LOW);
   data &= ~SHIFT_EN; // set Enable LOW
   shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
   digitalWrite(_enable_pin, HIGH);
-  delayMicroseconds(10);
   digitalWrite(_enable_pin, LOW);
 
 }
