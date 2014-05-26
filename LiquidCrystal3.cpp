@@ -31,27 +31,27 @@
 // LiquidCrystal constructor is called).
 
 LiquidCrystal::LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			     uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+           uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+           uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
   init(0, rs, rw, enable, d0, d1, d2, d3, d4, d5, d6, d7);
 }
 
 LiquidCrystal::LiquidCrystal(uint8_t rs, uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			     uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+           uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+           uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
   init(0, rs, 255, enable, d0, d1, d2, d3, d4, d5, d6, d7);
 }
 
 LiquidCrystal::LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
+           uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
 {
   init(1, rs, rw, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
 
 LiquidCrystal::LiquidCrystal(uint8_t rs,  uint8_t enable,
-			     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
+           uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3)
 {
   init(1, rs, 255, enable, d0, d1, d2, d3, 0, 0, 0, 0);
 }
@@ -62,8 +62,8 @@ LiquidCrystal::LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable)
 }
 
 void LiquidCrystal::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable,
-			 uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-			 uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
+       uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+       uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7)
 {
   
   if (fourbitmode = 0){
@@ -87,12 +87,12 @@ void LiquidCrystal::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t en
       pinMode(_rw_pin, OUTPUT);
     }
     pinMode(_enable_pin, OUTPUT);
-  	  
+      
     _displayfunction = LCD_8BITMODE | LCD_1LINE | LCD_5x8DOTS;
     
   }else if(fourbitmode = 1){ 
-  	
-  	_rs_pin = rs;
+    
+    _rs_pin = rs;
     _rw_pin = rw;
     _enable_pin = enable;
     
@@ -107,18 +107,18 @@ void LiquidCrystal::init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t en
       pinMode(_rw_pin, OUTPUT);
     }
     pinMode(_enable_pin, OUTPUT);
-  	
+    
     _displayfunction = LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS;
     
   }else if(fourbitmode = 2){
-  	
-  	//_rs_pin = clock;
+    
+    //_rs_pin = clock;
     //_rw_pin = data;
     //_enable_pin = latch;
     _rs_pin = rs;
     _rw_pin = rw;
     _enable_pin = enable;
-  	
+    
     _displayfunction = LCD_3WIERMODE | LCD_1LINE | LCD_5x8DOTS;
     
   }
@@ -311,78 +311,78 @@ inline size_t LiquidCrystal::write(uint8_t value) {
 
 // write either command or data, with automatic 4/8-bit selection
 void LiquidCrystal::send(uint8_t value, uint8_t mode) {
-	
+  
   int data = 0;
   
   if (!mode){
 
-	  data = value & 240; //send the first 4 databits (from 8)
-	  
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data |= SHIFT_EN; // Set Enable HIGH
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
+    data = value & 240; //send the first 4 databits (from 8)
+    
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data |= SHIFT_EN; // Set Enable HIGH
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
 
-	  data = value << 4; // set HByte to zero 
-	  
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data |= SHIFT_EN; // Set Enable HIGH
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
+    data = value << 4; // set HByte to zero 
+    
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data |= SHIFT_EN; // Set Enable HIGH
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
   } else if (mode) {
-  	  data = value & 240; //send the first 4 databits (from 8)
+    data = value & 240; //send the first 4 databits (from 8)
   
-      data |= SHIFT_RS; // set DI HIGH
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data |= SHIFT_EN; // Set Enable HIGH
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
+    data |= SHIFT_RS; // set DI HIGH
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data |= SHIFT_EN; // Set Enable HIGH
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
 
-	  data = value << 4; // set HByte to zero 
+    data = value << 4; // set HByte to zero 
   
-      data |= SHIFT_RS; // set DI HIGH
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data |= SHIFT_EN; // Set Enable HIGH
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
-	  data &= ~SHIFT_EN; // set Enable LOW
-	  shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
-	  digitalWrite(_enable_pin, HIGH);
-	  digitalWrite(_enable_pin, LOW);
+    data |= SHIFT_RS; // set DI HIGH
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data |= SHIFT_EN; // Set Enable HIGH
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
+    data &= ~SHIFT_EN; // set Enable LOW
+    shiftOut(_rw_pin, _rs_pin, MSBFIRST, data);
+    digitalWrite(_enable_pin, HIGH);
+    digitalWrite(_enable_pin, LOW);
   }
 
 }
 
 void LiquidCrystal::write4bits(uint8_t value) {
-	
+  
   int data = 0;
 
   data = value << 4; //send the first 4 databits (from 8)
